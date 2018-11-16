@@ -1,4 +1,6 @@
 <?php
+    session_start();
+    session_destroy();
 	session_start();
 	include("header.php");
 	include("config.php");
@@ -15,11 +17,11 @@
 				break;
 			case 3:
 				$err = "Password doesn't match.";
-				break;
-			case 4:
-				$err = "Your password cannot be empty.";
-				break;
-			case 5:
+                break;
+            case 4:
+                $err = "Password cannot be empty";
+                break;
+            case 5:
                 $err = "Don't be a poes.";
                 break;
 			default:
@@ -31,11 +33,11 @@
 
 	function checkInfo($info){
 		if($info["username"] != ""){
-			if (preg_match('/;/', $info["username"])){
+            if (preg_match('/;/', $info["username"])){
                 return 5;
             }
 			else if(isUnique("username",$info["username"])){
-				$_SESSION["username"] = $info["username"];
+				$_SESSION["username"] = mysqli_real_escape_string($info["username"]);
 			}
 		}
 		else
@@ -43,32 +45,27 @@
 		
 		if($info["email"] != ""){
 			if(isUnique("email",$info["email"])){
-				if (preg_match('/;/', $info["username"])){
-					return 5;
-				}
-				else
-					$_SESSION["email"] = $info["email"];
+				$_SESSION["email"] = mysqli_real_escape_string($info["email"]);
 			}
 		}
 		else
 			return 2;
-
+		
 		if($info["pass"] != ""){
-			if (preg_match('/;/', $info["username"])){
-                return 5;
-			}
-			else{
-				$out = checkPassword($info["pass"], $info["conf"]);
-				return $out;
-			}
-		}
-		else
-			return 4;
+			$out = checkPassword($info["pass"], $info["conf"]);
+			return $out;
+        }
+        else
+            return 4;
+
+
 	}
 
 	function checkPassword($pass, $conf){
-		$hashpass = hash("whirlpool",$pass);
-		$hashconf = hash("whirlpool",$conf);
+		$hashpass = mysqli_real_escape_string($pass);
+		$hashconf = mysqli_real_escape_string($conf);
+		$hashpass = hash("whirlpool",hash("whirlpool",$hashpass));
+		$hashconf = hash("whirlpool",hash("whirlpool",$hashconf));
 		if($hashpass === $hashconf){
 			$_SESSION["pass"] = $hashpass;
 			return 0;

@@ -121,5 +121,15 @@ class Db
 		$statement 	= $statement.");";
 		$this->runStatement($this->dbconn, $statement);
 	}
+	function appendRecord($bla){
+		$username = toQuote($bla["username"]);
+		$token = $bla["token"];
+		$statement = "SELECT token FROM users WHERE username = $username";
+		$out = $this->returnRecord($statement);
+		if ($out[0]["token"] == $token){
+			$statement = "UPDATE users SET verified=1 WHERE username = $username";
+			$this->runStatement($this->dbconn, $statement);
+		}
+	}
 }
 ?>

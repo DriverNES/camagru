@@ -1,6 +1,6 @@
 <?php
 	require("install.php");
-	// global $db;
+	global $db;
 	$db = new Db(
 				array	(
 						"servername"	=> "localhost",
@@ -27,16 +27,4 @@
 	{
 		return "'".$string."'";
 	}
-
-	function sendMail($mail)
-	{
-		$to			=	$mail["to"];										//'noreply@localhost.co.za';
-		$subject	=	$mail["subject"];									//'Camagru Verify Your Account';
-		$message	=	$mail["message"];									//'hello';
-		$headers	=	"From: ".$mail["headers"]["from"]."\r\n".			//'From: noreply@localhost.co.za' . "\r\n" .
-						"Reply-To: ".$mail["headers"]["Reply-To"]."\r\n".	//'Reply-To: noreply@localhost.co.za' . "\r\n" .
-						"X-Mailer: ".$mail["headers"]["X-Mailer"];			//'X-Mailer: PHP/' . phpversion();
-		mail($to, $subject, $message, $headers);
-	}
-	//$db->closeConnnections();
 ?>
