@@ -9,7 +9,7 @@
 						"dbname"		=> "CAMAGRU"
 						)
 				);
-	$columns = array	(
+	$usercolumns = array	(
 						"userID INT not NULL AUTO_INCREMENT PRIMARY KEY",
 						"username VARCHAR(20) not NULL",
 						"`password` VARCHAR(255) not NULL",
@@ -19,7 +19,20 @@
 						);
 	$db->createTABLE(
 					array	(	"name"		=>"USERS",
-								"columns"	=>$columns
+								"columns"	=>$usercolumns
+							)
+					);
+
+	$imagecolumns = array(
+						"id INT NOT NULL AUTO_INCREMENT PRIMARY KEY",
+						"image LONGBLOB not NULL",
+						"userID INT NOT NULL default '0'",
+						"`date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"
+	);
+
+	$db->createTABLE(
+					array	(	"name"=>"IMAGES",
+								"columns"=>$imagecolumns
 							)
 					);
 

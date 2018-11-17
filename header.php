@@ -7,6 +7,9 @@
     else if($_POST["login-btn"] == "login/sign up"){
         header('Location: signup.php');
     }
+    else if($_POST["home-btn"] == "home"){
+        header('Location: video.php');
+    }
     else if($_POST[""])
 ?>
 <head>
@@ -16,12 +19,12 @@
         <div style="position:fixed;leftt:1vw;">
         <table>
             <tr>
-            <td><input type="submit" class="header_button" name="btn" value="home"></td>
+            <td><input type="submit" class="header_button" name="home-btn" value="home"></td>
                 <?php
                     if($_SESSION["username"] != "")
                     {
                         echo
-                        '<td><input type="submit" class="header_button" name="btn" value="Welcome '.$_SESSION["username"].'"></td>';
+                        '<td><input type="submit" class="header_button" name="user-btn" value="Welcome '.$_SESSION["username"].'"></td>';
                     }
                 ?>
             </tr>

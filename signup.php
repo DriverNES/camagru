@@ -4,24 +4,40 @@
 	include("config.php");
 // grab recaptcha library
 	require_once "recaptchalib.php";
-	
 	if($_POST["btn"] == "Submit"){
 		switch(checkInfo($_POST)){
 			case 1:
 				$err = "Username already exists.";
+				session_destroy();
 				break;
 			case 2:
 				$err = "Email already registered.";
+				session_destroy();
 				break;
 			case 3:
 				$err = "Password doesn't match.";
+				session_destroy();
 				break;
 			case 4:
 				$err = "Your password cannot be empty.";
+				session_destroy();
 				break;
 			case 5:
-                $err = "Don't be a poes.";
-                break;
+				$err = "You can't use special characters, poes.";
+				session_destroy();
+				break;
+			case 6:
+				$err = "Please input a username.";
+				session_destroy();
+				break;
+			case 7:
+				$err = "Your password confirmation cannot be empty.";
+				session_destroy();
+				break;
+			case 8:
+				$err = "Your email cannot be empty.";
+				session_destroy();
+				break;
 			default:
 				header("Location: reg_success.php");
 				break;
@@ -31,31 +47,34 @@
 
 	function checkInfo($info){
 		if($info["username"] != ""){
-			if (preg_match('/;/', $info["username"])){
-                return 5;
+			if (preg_match('/[;"=]/', $info["username"])){
+				return 5;
             }
 			else if(isUnique("username",$info["username"])){
 				$_SESSION["username"] = $info["username"];
 			}
+			else
+				return 1;
 		}
 		else
-			return 1;
+			return 6;
 		
 		if($info["email"] != ""){
-			if(isUnique("email",$info["email"])){
-				if (preg_match('/;/', $info["username"])){
-					return 5;
-				}
-				else
+			if (preg_match('/[;"=]/', $info["email"])){
+				return 5;
+			}
+			else if(isUnique("email",$info["email"])){
 					$_SESSION["email"] = $info["email"];
 			}
+			else
+				return 2;
 		}
 		else
-			return 2;
+			return 8;
 
 		if($info["pass"] != ""){
-			if (preg_match('/;/', $info["username"])){
-                return 5;
+			if (preg_match('/[;"=]/', $info["pass"])){
+				return 5;
 			}
 			else{
 				$out = checkPassword($info["pass"], $info["conf"]);
@@ -64,6 +83,14 @@
 		}
 		else
 			return 4;
+
+		if($info["conf"] != ""){
+			if (preg_match('/[;"=]/', $info["conf"])){
+                return 5;
+			}
+		}
+		else
+			return 7;
 	}
 
 	function checkPassword($pass, $conf){
@@ -100,8 +127,8 @@
 			<form action="" method="post" style="top:50%">
 				<h4 style="margin-top:0">Sign Up</h4>
 				<input type="text" name="username" placeholder="Enter Username"><br>
-				<input title="Password requires one lower case letter, one upper case letter, one digit, 6-13 characters, and no spaces." pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).{8,}$" type="password"  name="pass" placeholder="Enter Password"><br>
-				<input title="Password requires one lower case letter, one upper case letter, one digit, 6-13 characters, and no spaces." pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).{8,}$" type="password"  name="conf" placeholder="Confirm Password"><br>
+				<input title="Password requires one lower case letter, one upper case letter, one digit, 8+ characters, and no spaces." pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).{8,}$" type="password"  name="pass" placeholder="Enter Password"><br>
+				<input title="Password requires one lower case letter, one upper case letter, one digit, 8+ characters, and no spaces." pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).{8,}$" type="password"  name="conf" placeholder="Confirm Password"><br>
 				<input type="email" name="email" placeholder="Enter Email Address"><br>
 				<!-- <div class="g-recaptcha" data-sitekey="6LdGtnUUAAAAAP5qjdcqi6hiS0zrCLUcM7mhqXiX"></div> -->
 				<input class="btn1" type="submit" name="btn" value="Submit"><br>

@@ -2,6 +2,8 @@
 	session_start();
 	include("header.php");
 	include("config.php");
+	// if(isset($_POST["addgal"])){
+	// }
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -14,7 +16,7 @@
 			<canvas class="webcamma" id="canvas" style="margin-top:10px"></canvas>
 		</div>
 		<div>
-			<form style="position:relative; margin-top:17.5%;" class="filters">
+			<form method="post" style="position:relative; margin-top:17.5%;" class="filters">
 					<div class="filtereth">Blur
 					<input min="0" max="20" value="0" step="1" oninput="applyFilter()" data-filter="blur" data-scale="px" type="range"></div>
 				
@@ -44,6 +46,8 @@
 					<a id="download" download="image.png"><button style="margin-left:75px" class="btn1" type="button" onClick="download()">Download</button></a>
 			</form>
 		</div>
+		<input style="position:absolute; right:10%; bottom:10%"id="add_gal" type="button" name="addgal" style="margin-left:52.5px" class="btn1" value="Add to gallery">
+		<img id="testimg" src="">
 	</div>
 	<script type="text/javascript">
 		var video = document.getElementById('video');
@@ -105,6 +109,22 @@
 			
 			download.setAttribute("href", image);
 		}
+		document.getElementById("add_gal").addEventListener("click", function(){
+			var img = new Image();
+			img.src = canvas.toDataURL();
+			var json = {
+                        pic: img.src
+                    }
+                    var xhr = new XMLHttpRequest();
+                    xhr.open('POST', 'save.php', true);
+                    xhr.setRequestHeader('Content-type', 'application/json');
+                    xhr.onreadystatechange = function (data) {
+                        if (xhr.readyState == 4 && xhr.status == 200) {
+                            console.log(xhr.responseText);
+                        }
+                    }
+                    xhr.send(JSON.stringify(json))
+            });
 	</script>
 </body>
 </html>
