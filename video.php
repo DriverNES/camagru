@@ -1,9 +1,8 @@
 <?php
-	session_start();
 	include("header.php");
-	include("config.php");
-	// if(isset($_POST["addgal"])){
-	// }
+	if(!$_SESSION["username"]){
+		header("Location: signup.php");
+	}
 ?>
 <!DOCTYPE html>
 <html lang="en">

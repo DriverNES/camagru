@@ -1,13 +1,12 @@
 <?php
-	session_start();
 	include("header.php");
-    include("config.php");
     if ($_POST["btn"] == "Submit"){
         $username = toQuote($_POST["username"]);
         $password = hash("whirlpool",$_POST["pass"]);
-        $statement = "SELECT `password` FROM  users WHERE username = $username";
+        $statement = "SELECT * FROM  users WHERE username = $username";
         $out = $db->returnRecord($statement);
-        if ($out[0]["password"] == $password){
+        echo "<div class='errdiv'>You must verify your email address before signing in.</div>";
+        if ($out[0]["password"] == $password && $out[0]["verified"] == "1"){
             $_SESSION["username"] = $_POST["username"];
             header("Location: video.php");
         }

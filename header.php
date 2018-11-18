@@ -1,16 +1,22 @@
 <?php
     session_start();
-    if($_POST["logout-btn"] == "log out"){
+    include("./config/setup.php");
+    if($_POST["logout-btn"]){
         session_destroy();
         header('Location: signup.php');
     }
-    else if($_POST["login-btn"] == "login/sign up"){
+    else if($_POST["login-btn"]){
         header('Location: signup.php');
     }
-    else if($_POST["home-btn"] == "home"){
+    else if($_POST["home-btn"]){
+        header('Location: index.php');
+    }
+    else if($_POST["user-btn"]){
         header('Location: video.php');
     }
-    else if($_POST[""])
+    else if($_POST["settings-btn"]){
+        header('Location: settings.php');
+    }
 ?>
 <head>
     <title>Camagru</title>
@@ -19,12 +25,11 @@
         <div style="position:fixed;leftt:1vw;">
         <table>
             <tr>
-            <td><input type="submit" class="header_button" name="home-btn" value="home"></td>
+            <td><input type="submit" class="header_button" name="home-btn" value="Gallery"></td>
                 <?php
                     if($_SESSION["username"] != "")
                     {
-                        echo
-                        '<td><input type="submit" class="header_button" name="user-btn" value="Welcome '.$_SESSION["username"].'"></td>';
+                        echo '<td><input type="submit" class="header_button" name="user-btn" value="Camera"></td>';
                     }
                 ?>
             </tr>
@@ -37,11 +42,11 @@
                     if($_SESSION["username"] != "")
                     {
                         echo
-                        '<td><input type="submit" class="header_button" name="logout-btn" id="logout-btn" value="log out"></td>'.
-                        '<td><input type="submit" class="header_button" name="settings-btn" value="settings"></td>';
+                        '<td><input type="submit" class="header_button" name="logout-btn" id="logout-btn" value="Log Out"></td>'.
+                        '<td><input type="submit" class="header_button" name="settings-btn" value="Settings"></td>';
                     }
                     else
-                        echo '<td><input type="submit" class="header_button" name="login-btn" value="login/sign up"></td>';
+                        echo '<td><input type="submit" class="header_button" name="login-btn" value="Login/Sign Up"></td>';
                     ?>
             </tr>
             </table>

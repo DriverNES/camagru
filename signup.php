@@ -1,7 +1,5 @@
 <?php
-	session_start();
 	include("header.php");
-	include("config.php");
 // grab recaptcha library
 	require_once "recaptchalib.php";
 	if($_POST["btn"] == "Submit"){
@@ -103,14 +101,6 @@
 		else
 			return 3;
 	}
-
-	function isUnique($param, $val){
-		global $db;
-
-		$statement = "SELECT * FROM USERS WHERE ".$param." = ".toQuote($val).";";
-		$count = $db->returnRecord($statement);
-		return (!count($count));
-	}
 ?>
 
 <!DOCTYPE html>
@@ -130,7 +120,7 @@
 				<input title="Password requires one lower case letter, one upper case letter, one digit, 8+ characters, and no spaces." pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).{8,}$" type="password"  name="pass" placeholder="Enter Password"><br>
 				<input title="Password requires one lower case letter, one upper case letter, one digit, 8+ characters, and no spaces." pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).{8,}$" type="password"  name="conf" placeholder="Confirm Password"><br>
 				<input type="email" name="email" placeholder="Enter Email Address"><br>
-				<!-- <div class="g-recaptcha" data-sitekey="6LdGtnUUAAAAAP5qjdcqi6hiS0zrCLUcM7mhqXiX"></div> -->
+				<div class="g-recaptcha" data-sitekey="6LdGtnUUAAAAAP5qjdcqi6hiS0zrCLUcM7mhqXiX"></div>
 				<input class="btn1" type="submit" name="btn" value="Submit"><br>
 			</form>
 			<script src='https://www.google.com/recaptcha/api.js'></script>

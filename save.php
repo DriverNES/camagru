@@ -1,9 +1,5 @@
 <?php
-
-include('config.php');
-
-
-
+include("header.php");
 $headers = getallheaders();
 if ($headers["Content-type"] == "application/json") {
     $stuff = json_decode(file_get_contents("php://input"), true);
@@ -11,7 +7,7 @@ if ($headers["Content-type"] == "application/json") {
 }
 $fields = array(
     "image",
-    "userID"
+    "username"
 );
 $table = array(
     "name"      => "images",
@@ -19,7 +15,7 @@ $table = array(
 );
 $values = array(
                 toQuote($stuff["pic"]),
-                toQuote("1"),
+                toQuote($_SESSION["username"])
 );
 $db->insertRecord(
     array(
@@ -27,5 +23,4 @@ $db->insertRecord(
             "values"    => $values
     )
 );
-
 ?>

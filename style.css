@@ -1,7 +1,12 @@
 body{
 	min-width: 950px;
-	background-image:url('./graf_1.gif'); 
+	background-image:url('./background.gif'); 
 	background-size:cover;
+}
+label{
+	color:white;
+	font-family: 'K2D';
+	margin-top:2px;
 }
 .header_button{
 	background: rgb(255, 255, 255);
@@ -148,4 +153,8 @@ h4{
 }
 table{
 	font-family: 'K2D';
+}
+input[type=checkbox]{
+	align-self: left;
+	color: white;
 }
