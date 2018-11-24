@@ -1,6 +1,6 @@
 <?php
 	require("database.php");
-	global $db;
+	// global $db;
 	$db = new Db(
 				array	(
 						"servername"	=> "localhost",
@@ -28,7 +28,8 @@
 						"imageID INT NOT NULL AUTO_INCREMENT PRIMARY KEY",
 						"image LONGBLOB not NULL",
 						"username varchar(100) NOT NULL",
-						"`date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP"
+						"`date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
+						"likes INT NOT NULL DEFAULT '0'"
 	);
 
 	$db->createTABLE(

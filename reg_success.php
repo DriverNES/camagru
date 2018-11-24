@@ -3,13 +3,14 @@ session_start();
 include_once("header.php");
 $token = hash("whirlpool", $_SESSION["username"].$_SESSION["email"]);
 echo $token."<br>";
-$token = substr(str_shuffle($token), 0, 15);
+$token = substr(str_shuffle($token), 0, 12);
 $fields = array(
     "username",
     "password",
     "email",
     "token",
-    "verified"
+    "verified",
+    "notifications"
 );
 $table = array(
     "name"      => "USERS",
@@ -21,7 +22,8 @@ $values = array(
                 toQuote($_SESSION["pass"]),
                 toQuote($_SESSION["email"]),
                 toQuote($token),
-                '0'
+                '0',
+                '1'
 );
 $db->insertRecord(
     array(

@@ -56,4 +56,9 @@
     <link href="style.css" type="text/css" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css?family=K2D" rel="stylesheet"> 
 </head>
+<footer id="footing" class="footer_div">
+    <div>
+        &copy Nick
+    </div>
+</footer>
 </html>

@@ -9,18 +9,20 @@
         $out = $db->returnRecord($select);
         if($_POST["curruser"] === $_SESSION["username"]){
             if($_POST["newuser"] != "" && isUnique("username",$_POST["newuser"])){
-                $statement = "UPDATE users, images SET username = ".toQuote($_POST['newuser'])." WHERE username = ".toQuote($_SESSION["username"]);
-                $db->returnRecord($statement);
+                $statement = "UPDATE users SET username = ".toQuote($_POST['newuser'])." WHERE username = ".toQuote($_SESSION["username"]);
+                $statement .= "; UPDATE images SET username = ".toQuote($_POST['newuser'])." WHERE username = ".toQuote($_SESSION["username"]);
+                $db->runStatement($db->getDBConn(),$statement);
+                $_SESSION["username"] = $_POST["newuser"];
             }
         }
         if(hash("whirlpool",$_POST["currpass"]) == $out[0]["password"]){
             $newpass = hash("whirlpool", $_POST["newpass"]);
             $statement = "UPDATE users SET `password` = ".toQuote($newpass)." WHERE `password` = ".toQuote(hash("whirlpool",$_POST["currpass"]))." AND username = ".toQuote($_SESSION["username"]);
-            $db->returnRecord($statement);
+            $db->runStatement($db->getDBConn(),$statement);
         }
         if($_POST["curremail"] == $out[0]["email"]){
             $statement = "UPDATE users SET email = ".toQuote($_POST['newemail'])." WHERE email = ".toQuote($_POST["curremail"]);
-            $db->returnRecord($statement);
+            $db->runStatement($db->getDBConn(),$statement);
         }
         if($_POST["notifications"]){
             if($_POST["notifications"] == "noteon")
@@ -28,8 +30,9 @@
             else
                 $onoff = 0;
             $statement = "UPDATE users SET notifications = ".toQuote($onoff)." WHERE username = ".toQuote($_SESSION["username"]);
-            $db->returnRecord($statement);
+            $db->runStatement($db->getDBConn(),$statement);
         }
+        // header("Location: video.php");
     }
 ?>
 <html>

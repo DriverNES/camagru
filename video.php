@@ -11,6 +11,7 @@
 		<div style="position:absolute; top:10%; display:flex; flex-direction:column">
 			<video class="webcamma" autoplay="true" id="video"></video><br>
 			<button class="btn1" style="margin-top:10px; flex:1; width:100%" onclick="snap();">Take Picture</button><br>
+			<input id="add_gal" type="button" name="addgal" class="btn1" value="Add to gallery">
 			<input  class="filters" style="width:100%; color:white; font-family:'K2D'; margin-top:10px" type="file" id="imageLoader" name="imageLoader"/><br>
 			<canvas class="webcamma" id="canvas" style="margin-top:10px"></canvas>
 		</div>
@@ -44,9 +45,10 @@
 					<input min="0" max="100" value="0" step="1" oninput="applyFilter()" data-filter="sepia" data-scale="%" type="range"></div>
 					<a id="download" download="image.png"><button style="margin-left:75px" class="btn1" type="button" onClick="download()">Download</button></a>
 			</form>
+			<div>
+				<p>bla bla bla</p>
+			</div>
 		</div>
-		<input style="position:absolute; right:10%; bottom:10%"id="add_gal" type="button" name="addgal" style="margin-left:52.5px" class="btn1" value="Add to gallery">
-		<img id="testimg" src="">
 	</div>
 	<script type="text/javascript">
 		var video = document.getElementById('video');
