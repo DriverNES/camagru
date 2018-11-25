@@ -1,54 +1,60 @@
 <?php
 	include("header.php");
 	if(!$_SESSION["username"]){
-		header("Location: signup.php");
+		header("Location: login.php");
 	}
+	$headers = getallheaders();
+	if ($headers["Content-type"] == "application/json") {
+    	$stuff = json_decode(file_get_contents("php://input"), true);
+		switch($stuff){
+			case "sticker1":
+				$sticker = imagecreatefrompng('./images/sticker1.png');
+				$src = "./images/sticker1.png";
+				break;
+			case "sticker2":
+				$sticker = imagecreatefrompng('./images/sticker2.png');
+				$src = "./images/sticker2.png";
+				break;
+			case "sticker3":
+				$sticker = imagecreatefrompng('./images/sticker3.png');
+				$src = "./images/sticker3.png";
+				break;
+			case "sticker4":
+				$sticker = imagecreatefrompng('./images/sticker4.png');
+				$src = "./images/sticker4.png";
+				break;
+		}
+		$im = imagecreatefrompng('./bot.png');
+		imagecopyresampled($im, $sticker, 0, 0, 0, 0, 640, 480, 640, 480);
+		imagepng($im, "new.png");
+	}
+	echo "<img width='640px' height='480px' style='position:absolute; z-index:2; top:10%' id='dadada'>";
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <body>
-	<div style="width:950px; margin:auto">
-		<div style="position:absolute; top:10%; display:flex; flex-direction:column">
-			<video class="webcamma" autoplay="true" id="video"></video><br>
-			<button class="btn1" style="margin-top:10px; flex:1; width:100%" onclick="snap();">Take Picture</button><br>
-			<input id="add_gal" type="button" name="addgal" class="btn1" value="Add to gallery">
-			<input  class="filters" style="width:100%; color:white; font-family:'K2D'; margin-top:10px" type="file" id="imageLoader" name="imageLoader"/><br>
-			<canvas class="webcamma" id="canvas" style="margin-top:10px"></canvas>
-		</div>
-		<div>
-			<form method="post" style="position:relative; margin-top:17.5%;" class="filters">
-					<div class="filtereth">Blur
-					<input min="0" max="20" value="0" step="1" oninput="applyFilter()" data-filter="blur" data-scale="px" type="range"></div>
-				
-					<div class="filtereth">Brightness
-					<input min="0" max="200" value="100" step="1" oninput="applyFilter()" data-filter="brightness" data-scale="%" type="range"></div>
-				
-					<div class="filtereth">Contrast
-					<input min="0" max="200" value="100" step="1" oninput="applyFilter()" data-filter="contrast" data-scale="%" type="range"></div>
-				
-					<div class="filtereth">Grayscale
-					<input min="1" max="100" value="1" step="1" oninput="applyFilter()" data-filter="grayscale" data-scale="%" type="range"></div>
-				
-					<div class="filtereth">Hue Rotate
-					<input min="0" max="360" value="0" step="1" oninput="applyFilter()" data-filter="hue-rotate" data-scale="deg" type="range"></div>
-				
-					<div class="filtereth">Invert
-					<input min="0" max="100" value="0" step="1" oninput="applyFilter()" data-filter="invert" data-scale="%" type="range"></div>
-				
-					<div class="filtereth">Opacity
-					<input min="0" max="100" value="100" step="1" oninput="applyFilter()" data-filter="opacity" data-scale="%" type="range"></div>
-				
-					<div class="filtereth">Saturate
-					<input min="0" max="200" value="100" step="1" oninput="applyFilter()" data-filter="saturate" data-scale="%" type="range"></div>
-				
-					<div class="filtereth">Sepia
-					<input min="0" max="100" value="0" step="1" oninput="applyFilter()" data-filter="sepia" data-scale="%" type="range"></div>
-					<a id="download" download="image.png"><button style="margin-left:75px" class="btn1" type="button" onClick="download()">Download</button></a>
-			</form>
-			<div>
-				<p>bla bla bla</p>
-			</div>
-		</div>
+	<div style="position:absolute; z-index:1; top:10%; display:flex; flex-direction:column">
+		<video class="webcamma" autoplay="true" id="video"></video><br>
+		<button class="btn1" style="margin-top:10px; flex:1; width:100%" onclick="snap();">Take Picture</button>
+		<input id="add_gal" type="submit" name="addgal" class="btn1" value="Add to gallery">
+		<input  class="filters" style="width:100%; color:white; font-family:'K2D'; margin-top:10px" type="file" id="imageLoader" name="imageLoader"/><br>
+		<canvas class="webcamma" id="canvas" style="margin-top:10px"></canvas>
+	</div>
+	<div class="filterdiv" style="position:absolute; top:10%; left:700px;">
+		<?php
+			//$i = 0;
+			//$imarray = $db->returnRecord("SELECT * FROM images WHERE username = ".toQuote($_SESSION["username"]));
+			//while ($imarray[$i]){
+			//echo "<div style='position:relative; display:flex; flex-direction:column'><img style='width:380px;height:280px;margin:auto' src=".$imarray[$i]["image"]."></div><br>";
+			//	$i++;
+			//}
+		?>
+	</div>
+	<div class="filterdiv" style="position:absolute; bottom:5%; left:700px">
+		<img src='./images/sticker1.png' id='sticker1' width='80%' onclick='setsticker(id)'>
+		<img src='./images/sticker2.png' id='sticker2' width='80%' onclick='setsticker(id)'>
+		<img src='./images/sticker3.png' id='sticker3' width='80%' onclick='setsticker(id)'>
+		<img src='./images/sticker4.png' id='sticker4' width='80%' onclick='setsticker(id);'>
 	</div>
 	<script type="text/javascript">
 		var video = document.getElementById('video');
@@ -72,23 +78,32 @@
 		function throwError(e){
 			alert(e.name);
 		}
+		function setsticker(id){
+			var stick = document.getElementById('dadada');
+			stick.setAttribute('src', './images/'+id+'.png');
+			var xhr = new XMLHttpRequest();
+			xhr.open('POST', 'video.php', true);
+				xhr.setRequestHeader('Content-type', 'application/json');
+				xhr.onreadystatechange = function (data) {
+				 	if (xhr.readyState == 4 && xhr.status == 200)
+				 		console.log(xhr.responseText);
+				 }
+				xhr.send(JSON.stringify(id))
 
+		}
 		function snap(){
 			canvas.width = video.clientWidth;
 			canvas.height = video.clientHeight;
+			context.translate(canvas.width, 0);
+			context.scale(-1, 1);
+			context.save();
+			context.restore();
 			context.drawImage(video, 0, 0);
-			document.getElementById("canvas").style.transform = "rotateY(180deg)";
+			document.getElementById("canvas").style.transform = "rotateY(0deg)";
 			document.getElementById("imageLoader").value="";
 		}
 		var image = document.querySelector('canvas');
-		var filterControls = document.querySelectorAll('input[type=range]');
-		function applyFilter() {
-			var computedFilters = '';
-			filterControls.forEach(function(item, index) {
-				computedFilters += item.getAttribute('data-filter') + '(' + item.value + item.getAttribute('data-scale') + ')';
-			});
-			image.style.filter = computedFilters;
-		};
+
 		function handleImage(e){
 			var reader = new FileReader();
 			reader.onload = function(event){
@@ -113,18 +128,19 @@
 		document.getElementById("add_gal").addEventListener("click", function(){
 			var img = new Image();
 			img.src = canvas.toDataURL();
-			var json = {
-                        pic: img.src
-                    }
-                    var xhr = new XMLHttpRequest();
-                    xhr.open('POST', 'save.php', true);
-                    xhr.setRequestHeader('Content-type', 'application/json');
-                    xhr.onreadystatechange = function (data) {
-                        if (xhr.readyState == 4 && xhr.status == 200) {
-                            console.log(xhr.responseText);
-                        }
-                    }
-                    xhr.send(JSON.stringify(json))
+			if (canvas.width == video.clientWidth){
+				var json = {
+						pic: img.src
+					}
+					var xhr = new XMLHttpRequest();
+					xhr.open('POST', 'save.php', true);
+					xhr.setRequestHeader('Content-type', 'application/json');
+					xhr.onreadystatechange = function (data) {
+						if (xhr.readyState == 4 && xhr.status == 200)
+							console.log(xhr.responseText);
+					}
+					xhr.send(JSON.stringify(json))
+			}
             });
 	</script>
 </body>

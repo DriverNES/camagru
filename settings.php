@@ -11,6 +11,7 @@
             if($_POST["newuser"] != "" && isUnique("username",$_POST["newuser"])){
                 $statement = "UPDATE users SET username = ".toQuote($_POST['newuser'])." WHERE username = ".toQuote($_SESSION["username"]);
                 $statement .= "; UPDATE images SET username = ".toQuote($_POST['newuser'])." WHERE username = ".toQuote($_SESSION["username"]);
+                $statement .= "; UPDATE comments SET username = ".toQuote($_POST['newuser'])." WHERE username = ".toQuote($_SESSION["username"]);
                 $db->runStatement($db->getDBConn(),$statement);
                 $_SESSION["username"] = $_POST["newuser"];
             }

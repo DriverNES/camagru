@@ -19,7 +19,7 @@ imagecopyresampled($im, $stamp, $marge_right, $marge_bottom, 0, 0, $stw, $stw, i
 
 
 // header("Content-Type: image/jpeg");
-imagepng($im, "yo.png");
+imagepng($im, "yo2.png");
 ?>
 
-<img src="./yo.png" alt="superimposing images using php"/>
+<img src="./yo2.png" alt="superimposing images using php"/>

@@ -37,6 +37,18 @@
 								"columns"=>$imagecolumns
 							)
 					);
+	$commcolumns = array(
+						"imageID INT NOT NULL DEFAULT '0'",
+						"username varchar(100) NOT NULL",
+						"comment varchar(1000) NOT NULL",
+						"`date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP",
+	);
+
+	$db->createTABLE(
+					array	(	"name"=>"COMMENTS",
+								"columns"=>$commcolumns
+							)
+					);
 
 	function toQuote($string)
 	{

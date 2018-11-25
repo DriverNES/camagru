@@ -2,9 +2,7 @@
     // ini_set('display_errors', 'On');
     include("header.php");
     $imagelimit = 5;
-    // $out = $db->returnRecord("SELECT COUNT(*)as counted FROM images");
     $out2 = $db->returnRecord("SELECT * FROM images");
-    // $total = $out[0]["counted"];
     $total = count($out2);
     if(isset($_GET["page"])){
         $page = $_GET["page"];
