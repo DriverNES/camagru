@@ -26,7 +26,7 @@
 		}
 		$im = imagecreatefrompng('./bot.png');
 		imagecopyresampled($im, $sticker, 0, 0, 0, 0, 640, 480, 640, 480);
-		imagepng($im, "new.png");
+		imagepng($im, $_SESSION["username"]."new.png");
 	}
 	echo "<img width='640px' height='480px' style='position:absolute; z-index:2; top:10%' id='dadada'>";
 ?>
@@ -89,6 +89,8 @@
 				 		console.log(xhr.responseText);
 				 }
 				xhr.send(JSON.stringify(id))
+			snap();
+			replaceImage();
 
 		}
 		function snap(){
@@ -125,6 +127,15 @@
 			
 			download.setAttribute("href", image);
 		}
+		function replaceImage(){
+			var src = "./<?php echo $_SESSION["username"]?>new.png"
+			var img1 = new Image();
+			img1.src = src;
+			canvas.width = video.clientWidth;
+			canvas.height = video.clientHeight;
+			context.drawImage(img1,0,0,640,480,0,0,canvas.width,canvas.height);
+		}
+
 		document.getElementById("add_gal").addEventListener("click", function(){
 			var img = new Image();
 			img.src = canvas.toDataURL();
