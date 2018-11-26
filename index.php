@@ -27,6 +27,3 @@
     echo "</div>";
 
 ?>
-<html>
-
-</html>

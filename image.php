@@ -6,7 +6,7 @@
     }
     if ($_POST["comm-btn"]){
         if ($_POST["commbox"]){
-            $pattern = array("/;/", "/=/", "/\"/");
+            $pattern = array("#;#", "#=#", "#\"#");
             $replace = array("%1", "%2", "%3");
             $noinjectcomm = preg_replace($pattern, $replace, $_POST["commbox"]);
             $statement = "INSERT INTO comments (imageID, username, comment) VALUES (";
@@ -18,7 +18,7 @@
             $user = $out[0]["username"];
             $statement = "SELECT * FROM users WHERE username = ".toQuote($user);
             $out = $db->returnRecord($statement);
-            $message = $_SESSION["username"]." commented on your image. Go to 127.0.0.1:8080/image.PHP?imageID=".$_GET["imageID"]." to check it out!";
+            $message = $_SESSION["username"]." commented on your image. Go to 127.0.0.1:8080/camagru/image.PHP?imageID=".$_GET["imageID"]." to check it out!";
             if ($out[0]["notifications"]){
                 mail($out[0]["email"], "New Camagru Comment", $message);
             }
@@ -29,7 +29,7 @@
     echo "<div class='imagediv' style='top:10%'><img src=".$imarray[0]["image"].">";
     echo "<div class='commdiv'>";
     foreach ($commarray as $something){
-        $pattern = array("/(%1)/", "/(%2)/", "/(%3)/");
+        $pattern = array("#(%1)#", "#(%2)#", "#(%3)#");
         $replace = array(";", "=", "\"");
         $noinjectcomm = preg_replace($pattern, $replace, $something["comment"]);
         $out = "(".$something["date"].") ".$something["username"].": ".$noinjectcomm;

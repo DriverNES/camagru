@@ -17,6 +17,9 @@
     else if($_POST["settings-btn"]){
         header('Location: settings.php');
     }
+    else if($_POST["usergal-btn"]){
+        header('Location: usergal.php');
+    }
 ?>
 <head>
     <title>Camagru</title>
@@ -30,6 +33,7 @@
                     if($_SESSION["username"] != "")
                     {
                         echo '<td><input type="submit" class="header_button" name="user-btn" value="Camera"></td>';
+                        echo '<td><input type="submit" class="header_button" name="usergal-btn" value="'.$_SESSION["username"].'\'s Images"></td>';
                     }
                 ?>
             </tr>
